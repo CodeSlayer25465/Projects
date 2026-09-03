@@ -1,0 +1,30 @@
+import json
+import tkinter as t
+
+tasks = []
+DOlist = {"To do list:" : tasks}
+
+def load():
+    with open(file="ToDoList.json", mode="r") as f:
+        file = json.load(fp=f)
+    clean_tasks = "\n".join(file["To do list:"])
+    lbl = t.Label(master=window, text=clean_tasks)
+    lbl.pack()
+
+
+def save(event=None):
+    tasks.append(Entry.get())
+    with open(file="ToDoList.json", mode="w") as f:
+        json.dump(DOlist, fp=f)
+
+window = t.Tk()
+window.geometry("500x500")
+window.title("To do list")
+label = t.Label(master=window, text="Enter to do list")
+Entry = t.Entry(master=window)
+Entry.bind(sequence="<Return>", func=save)
+btn = t.Button(master=window, text="Click to load all tasks", command=load)
+label.pack()
+Entry.pack()
+btn.pack()
+window.mainloop()
